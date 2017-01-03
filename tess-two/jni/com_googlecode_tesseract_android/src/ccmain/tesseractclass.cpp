@@ -498,7 +498,7 @@ Tesseract::Tesseract()
           textord_tabfind_aligned_gap_fraction, 0.75,
           "Fraction of height used as a minimum gap for aligned blobs.",
           this->params()),
-      INT_MEMBER(tessedit_parallelize, 0, "Run in parallel where possible",
+      INT_MEMBER(tessedit_parallelize, 1, "Run in parallel where possible",
                  this->params()),
       BOOL_MEMBER(preserve_interword_spaces, false,
                   "Preserve multiple interword spaces", this->params()),

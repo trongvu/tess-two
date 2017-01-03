@@ -24,6 +24,12 @@
 #include "allheaders.h"
 #include "renderer.h"
 
+#include "omp.h"
+#include "pageiterator.h"
+#include "vector"
+#include "strngs.h"
+using namespace std;
+
 static jfieldID field_mNativeData;
 static jmethodID method_onProgressValues;
 
@@ -307,6 +313,58 @@ jstring Java_com_googlecode_tesseract_android_TessBaseAPI_nativeGetUTF8Text(JNIE
   free(text);
   nat->resetStateVariables();
 
+  return result;
+}
+jstring Java_com_googlecode_tesseract_android_TessBaseAPI_nativeGetUTF8TextOpenMp(JNIEnv *env, jobject thiz) {
+  STRING out("");
+  // Get the number of processors in this system
+  int iCPU = omp_get_num_procs();
+  LOGI("vu.trong-118: num of procs = %d", iCPU);
+  native_data_t *nat = get_native_data(env, thiz);
+
+  //line detection
+  int count = 0;
+  BOXA* boxa = nat->api.GetStrips(NULL, NULL);
+  count = boxa->n;
+  //create output arrays
+  vector<char*> ocrResult;
+  ocrResult.resize(count);
+
+  //create Tesseract instances
+  vector<tesseract::TessBaseAPI> tessList;
+  tessList.resize(iCPU);
+  const char* lang = nat->api.GetInitLanguagesAsString();
+  const char* tessdata = nat->api.GetDatapath();
+#pragma omp parallel for num_threads(iCPU) schedule(static,1)
+  for (int i = 0; i < iCPU; i++) {
+    tessList[i].Init(tessdata, lang);
+    tessList[i].SetImage(nat->pix);
+  }
+
+  //recognize each line by separated threads
+#pragma omp parallel for num_threads(iCPU) schedule(static,1)
+  for (int i = 0; i < count; ++i) {
+    BOX* temp = boxaGetBox(boxa, i, L_CLONE);
+    tessList[i % iCPU].SetRectangle(temp->x, temp->y, temp->w, temp->h);
+    ocrResult[i] = tessList[i % iCPU].GetUTF8Text();
+      ocrResult[i] = strtok(ocrResult[i], "\r\n");
+    //LOGI("Text line(%d) - thread id(%d): %s", i, omp_get_thread_num(), ocrResult[i]);
+  }
+
+  //free Tesseract instances
+  boxaDestroy(&boxa);
+#pragma omp parallel for num_threads(iCPU) schedule(static,1)
+  for (int i = 0; i < iCPU; i++) {
+    tessList[i].End();
+  }
+
+  //collect output
+  for (int i = 0; i < count; i++) {
+    out += ocrResult[i];
+    out += "\n";
+    delete[] ocrResult[i];
+  }
+  jstring result = env->NewStringUTF(out.c_str());
   return result;
 }
 

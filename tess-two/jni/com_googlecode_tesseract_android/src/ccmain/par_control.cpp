@@ -52,7 +52,7 @@ void Tesseract::PrerecAllWordsPar(const GenericVector<WordData>& words) {
     }
   }
   // Pre-classify all the blobs.
-  if (tessedit_parallelize > 1) {
+  if (tessedit_parallelize) {
     #pragma omp parallel for num_threads(10)
     for (int b = 0; b < blobs.size(); ++b) {
       *blobs[b].choices =

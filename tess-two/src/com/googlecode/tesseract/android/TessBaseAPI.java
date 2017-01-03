@@ -570,6 +570,15 @@ public class TessBaseAPI {
         return text != null ? text.trim() : null;
     }
 
+    public String getUTF8TextOpenMp() {
+        if (mRecycled)
+            throw new IllegalStateException();
+
+        // Trim because the text will have extra line breaks at the end
+        String text = nativeGetUTF8TextOpenMp();
+
+        return text != null ? text.trim() : null;
+    }
     /**
      * Returns the (average) confidence value between 0 and 100.
      *
@@ -915,6 +924,8 @@ public class TessBaseAPI {
     private native void nativeSetRectangle(int left, int top, int width, int height);
 
     private native String nativeGetUTF8Text();
+
+    private native String nativeGetUTF8TextOpenMp();
 
     private native int nativeMeanConfidence();
 
