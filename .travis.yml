@@ -9,7 +9,7 @@ branches:
 before_install:
     - git clone --depth 1 https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
     - export ANDROID_NDK=$HOME/android-ndk-root
-    - $export PATH=$PATH:$ANDROID_NDK
+    - export PATH=$PATH:$ANDROID_NDK
   
 android:
   components:
