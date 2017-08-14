@@ -19,5 +19,7 @@ android:
     # SDK Version to compile project
     - android-22
     - android-23
-before_script: mv /home/travis/build/trongvu/tess-two/ /home/travis/build/trongvu/tess-two-base/
+before_script:
+    - echo $TRAVIS_BUILD_DIR
+    - mv /home/travis/build/trongvu/tess-two/ /home/travis/build/trongvu/tess-two-base/
 script: /home/travis/build/trongvu/tess-two-base/gradlew assembleRelease
