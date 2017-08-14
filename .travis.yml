@@ -9,7 +9,13 @@ branches:
 before_install:
     - git clone --depth 1 https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
     - export ANDROID_NDK=$HOME/android-ndk-root
-    
+install:
+  - cd $TRAVIS_BUILD_DIR/
+  - cd ..
+  - mv tess-two tess-two-base
+  - export TRAVIS_BUILD_DIR=`pwd/tess-two-base`
+  - cd $TRAVIS_BUILD_DIR/
+  - git checkout -qf $TRAVIS_COMMIT
 android:
   components:
     - tools
