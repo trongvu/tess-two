@@ -1,0 +1,22 @@
+language: android
+jdk: oraclejdk8
+sudo: false
+
+branches:
+  only:
+    - master
+
+before_install:
+    - git clone --depth 1 https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
+    - export ANDROID_NDK=$HOME/android-ndk-root
+    
+android:
+  components:
+    - tools
+    - build-tools-23.0.2
+    - platform-tools
+    - extra
+    # SDK Version to compile project
+    - android-22
+        
+script: ./gradlew assembleRelease
