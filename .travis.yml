@@ -9,6 +9,7 @@ branches:
 before_install:
     - git clone --depth 1 https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
     - export ANDROID_NDK=$HOME/android-ndk-root
+    - $export PATH=$PATH:$ANDROID_NDK
   
 android:
   components:
@@ -24,5 +25,5 @@ script:
     - mv tess-two tess-two-base
     - cd tess-two-base
     - echo "sdk.dir=/usr/local/android-sdk/" > local.properties
-    - echo "ndk.dir=$HOME/android-ndk-root" >> local.properties
+    - echo "ndk.dir=$ANDROID_NDK" >> local.properties
     - ./gradlew assembleRelease
