@@ -13,9 +13,8 @@ install:
   - cd $TRAVIS_BUILD_DIR/
   - cd ..
   - mv tess-two tess-two-base
-  - export TRAVIS_BUILD_DIR=`pwd/tess-two-base`
-  - cd $TRAVIS_BUILD_DIR/
-  - git checkout -qf $TRAVIS_COMMIT
+  - export TRAVIS_BUILD_DIR=`pwd`/tess-two-base
+  
 android:
   components:
     - tools
@@ -25,4 +24,4 @@ android:
     # SDK Version to compile project
     - android-22
         
-script: ./gradlew assembleRelease
+script: $TRAVIS_BUILD_DIR/gradlew assembleRelease
