@@ -3,6 +3,6 @@ TESSERACT_PATH := $(LOCAL_PATH)/com_googlecode_tesseract_android/src
 LEPTONICA_PATH := $(LOCAL_PATH)/com_googlecode_leptonica_android/src
 LIBJPEG_PATH := $(LOCAL_PATH)/libjpeg
 LIBPNG_PATH := $(LOCAL_PATH)/libpng
-
+APP_ALLOW_MISSING_DEPS=true
 # Just build the Android.mk files in the subdirs
 include $(call all-subdir-makefiles)
