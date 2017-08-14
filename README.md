@@ -1,4 +1,4 @@
-# tess-two
+# tess-two [![Build Status](https://travis-ci.org/trongvu/tess-two.svg?branch=master)](https://travis-ci.org/trongvu/tess-two)
 
 A fork of Tesseract Tools for Android 
 ([tesseract-android-tools][tesseract-android-tools]) that adds some
