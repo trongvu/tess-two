@@ -22,7 +22,7 @@ android:
 script: 
     - cd ..
     - mv tess-two tess-two-base
-    - cd test-two-base
+    - cd tess-two-base
     - echo "sdk.dir=/usr/local/android-sdk/" > local.properties
     - echo "ndk.dir=$HOME/android-ndk-root" >> local.properties
     - ./gradlew assembleRelease
