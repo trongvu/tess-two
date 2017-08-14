@@ -1,5 +1,3 @@
 #!/bin/bash
-cd ..
-mv tess-two tess-two-base
-cd tess-two-base
+echo "current dir = ${0}"
 ./gradlew assembleRelease
